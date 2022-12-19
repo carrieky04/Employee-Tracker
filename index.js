@@ -1,7 +1,24 @@
-import inquirer from 'inquirer';
+const inquirer = require('inquirer');
+const mysql = require('mysql2');
+const cTable = require('console.table');
 
-console.log("Inquirer Imported");
 
+
+// Create database connection
+const db = mysql.createConnection(
+    {
+      host: 'localhost',
+      user: 'root',
+      password: 'PassWord(1216)',
+      database: 'employees_db'
+    },
+    console.log(`Connected to the employees_db database.`)
+  );
+
+
+
+
+// Inquirer Question Objects
 const menu = [
     {
         type: 'list',
@@ -77,10 +94,13 @@ const showMenu = () => {
             console.log(answers);
             switch (answers.menu) {
                 case 'View All Departments':
+                    viewAllDepartments();
                     break;
                 case 'View All Roles':
+                    viewAllRoles();
                     break;
                 case 'View All Employees':
+                    viewAllEmployees();
                     break;
                 case 'Add a Department':
                     addDepartment();
@@ -99,6 +119,34 @@ const showMenu = () => {
             }
 
         })
+}
+
+const viewAllDepartments = () => {
+    db.query('Select * From department', (err, result) => {
+        if (err) {
+            console.log(err);    
+        } 
+        console.table(result);
+        showMenu();
+    })
+}
+
+const viewAllRoles = () => {
+    db.query('Select * From role', function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        console.table(result);
+    })
+}
+
+const viewAllEmployees = () => {
+    db.query('Select * From employee', function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        console.table(result);
+    })
 }
 
 const addDepartment = () => {
@@ -134,3 +182,4 @@ const updateEmployee = () => {
 }
 
 showMenu();
+
