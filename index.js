@@ -176,9 +176,9 @@ const addRole = () => {
     inquirer
         .prompt(role)
         .then((answers) => {
-            console.log(answers.choices);
-            const sql = `Insert Into role(title, salary, department_id ) Values(3)`;
-            const params = [answers.title, answers.salary];
+            
+            const sql = `Insert Into role (title, salary, department_id ) VALUES (${answers.title}, ${answers.salary}, ${answers.department})`;
+            const params = [answers.title, answers.salary, answers.department];
 
             db.query(sql, params, (err, res) => {
                 if (err) {
@@ -187,6 +187,19 @@ const addRole = () => {
                     console.log("Role Added!");
                 }
             })
+            // db.query('Insert Into role Set ?', 
+            //     {
+            //         title: answers.title,
+            //         salary: answers.salary,
+            //         department_id: answers.department
+            //     },
+            // (err, res) => {
+            //     if (err) {
+            //         console.log(err);
+            //     } else {
+            //         console.log('Role Added!');
+            //     }
+            // })
             showMenu();
         })
 }
