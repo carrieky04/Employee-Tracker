@@ -43,7 +43,7 @@ const role = [
     {
         type: 'input',
         message: 'What is the name of the role?',
-        name: 'name',
+        name: 'title',
     },
     {
         type: 'input',
@@ -122,39 +122,53 @@ const showMenu = () => {
 }
 
 const viewAllDepartments = () => {
-    db.query('Select * From department', (err, result) => {
+    db.query('Select * From department', (err, res) => {
         if (err) {
             console.log(err);    
-        } 
-        console.table(result);
-        showMenu();
-    })
+        } else {
+            console.table(res);
+            showMenu();
+        }; 
+    });
 }
 
 const viewAllRoles = () => {
-    db.query('Select * From role', function (err, results) {
+    db.query('Select * From role', (err, res) => {
         if (err) {
             console.log(err);
-        }
-        console.table(result);
-    })
+        } else {
+            console.table(res);
+            showMenu();
+        }; 
+    });
 }
 
 const viewAllEmployees = () => {
-    db.query('Select * From employee', function (err, results) {
+    db.query('Select * From employee', function (err, res) {
         if (err) {
             console.log(err);
-        }
-        console.table(result);
-    })
+        } else {
+            console.table(res);
+            showMenu();
+        };  
+    });
 }
 
 const addDepartment = () => {
     inquirer
         .prompt(department)
         .then((answers) => {
-            console.log(answers);
-            // showMenu();
+            const sql = `Insert Into department(name) Values(?)`;
+            const params = [answers.name];
+
+            db.query(sql, params, (err, res) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('Department Added!');
+                }
+            })
+            showMenu();
         })
 }
 
@@ -162,8 +176,18 @@ const addRole = () => {
     inquirer
         .prompt(role)
         .then((answers) => {
-            console.log(answers);
-            // showMenu();
+            console.log(answers.choices);
+            const sql = `Insert Into role(title, salary, department_id ) Values(3)`;
+            const params = [answers.title, answers.salary];
+
+            db.query(sql, params, (err, res) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Role Added!");
+                }
+            })
+            showMenu();
         })
 }
 
