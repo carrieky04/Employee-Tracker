@@ -135,7 +135,7 @@ const update = [
 // Menu prompt
 const showMenu = () => {
   inquirer.prompt(menu).then((answers) => {
-    console.log(answers);
+    
     switch (answers.menu) {
       case "View All Departments":
         viewAllDepartments();
@@ -164,6 +164,7 @@ const showMenu = () => {
   });
 };
 
+
 const viewAllDepartments = () => {
   db.query("Select * From department", (err, res) => {
     if (err) {
@@ -174,6 +175,7 @@ const viewAllDepartments = () => {
     }
   });
 };
+
 
 const viewAllRoles = () => {
   db.query("Select * From role", (err, res) => {
@@ -186,6 +188,7 @@ const viewAllRoles = () => {
   });
 };
 
+
 const viewAllEmployees = () => {
   db.query("Select * From employee", function (err, res) {
     if (err) {
@@ -196,6 +199,7 @@ const viewAllEmployees = () => {
     }
   });
 };
+
 
 const addDepartment = () => {
   inquirer.prompt(department).then((answers) => {
@@ -212,6 +216,7 @@ const addDepartment = () => {
     showMenu();
   });
 };
+
 
 const addRole = () => {
   inquirer.prompt(role).then((answers) => {
@@ -238,6 +243,7 @@ const addRole = () => {
   });
 };
 
+
 const addEmployee = () => {
   inquirer.prompt(employee).then((answers) => {
     const sql = `SELECT id FROM employee WHERE first_name = ? and last_name = ?`;
@@ -248,7 +254,6 @@ const addEmployee = () => {
       if (err) {
         console.log(err);
       } else {
-        console.log("This is manager id", res);
         let managerId = res[0].id;
 
         const sql1 = `SELECT id FROM role WHERE title = ?`;
@@ -258,10 +263,7 @@ const addEmployee = () => {
           if (err) {
             console.log(err);
           } else {
-            console.log("This is role id", res);
             let roleId = res[0].id;
-            console.log("Success!");
-
             const sql2 = `Insert Into employee (first_name, last_name, role_id, manager_id ) VALUES (?, ?, ?, ?)`;
             const params = [answers.first, answers.last, roleId, managerId];
 
@@ -281,9 +283,10 @@ const addEmployee = () => {
   });
 };
 
+
 const updateEmployee = () => {
   inquirer.prompt(update).then((answers) => {
-    console.log(answers)
+
     const sql = `SELECT first_name, last_name FROM employee`;
     const arrayOfNames = answers.employee.split(" ");
     const params = [arrayOfNames[0], arrayOfNames[1]];
@@ -302,10 +305,7 @@ const updateEmployee = () => {
           if (err) {
             console.log(err);
           } else {
-            console.log("This is role id", res);
             let roleId = res[0].id;
-            console.log("Success!");
-
             const sql2 = `UPDATE employee SET role_id = ? WHERE id = ?`;
             const params = [roleId, employeeId];
 
@@ -323,5 +323,7 @@ const updateEmployee = () => {
     showMenu();
   });
 };
+
+
 
 showMenu();

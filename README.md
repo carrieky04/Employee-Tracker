@@ -42,9 +42,9 @@ npm install --save mysql2
 
 ## Usage
 
-You can find this application deployed on Heroku:
+You can find a walkthrough video below:
 
-[Heroku](https://carrieky-note-taker.herokuapp.com/)
+[Demo](https://www.awesomescreenshot.com/video/13445772?key=0f6ab26310237cf1181eecf0d6ef56ed)
 
 To run this application, you will need to start the server by using this command in your CLI:
 
@@ -52,9 +52,6 @@ To run this application, you will need to start the server by using this command
 node index.js
 ```
 
-![Homepage](./public/assets/images/Homepage.png)
-
-![Notepage](./public/assets/images/Notepage.png)
 
 ## Tests
 
